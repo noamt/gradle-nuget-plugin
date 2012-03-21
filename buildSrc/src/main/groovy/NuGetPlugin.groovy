@@ -29,6 +29,15 @@ class NuGetPlugin implements Plugin<Project> {
                     requireLicenseAcceptance(nuspec.requireLicenseAcceptance)
                     description(nuspec.description)
                     tags(nuspec.tags)
+
+                    def deps = nuspec.deps.dependencies
+                    if (!deps.empty) {
+                        dependencies {
+                            deps.each { dep ->
+                                dependency(id: dep.id, version: dep.version)
+                            }
+                        }
+                    }
                 }
             }
 
@@ -58,12 +67,16 @@ class NuGetPlugin implements Plugin<Project> {
         def String copyright = 'copyright'
         def String language = 'en-US'
         def String tags = 'tags'
-        //def Closure packageDependencies;
-        //def Closure frameworkAssemblies;
-        //def Closure references;
+        def Dependencies deps
 
         def nuspec(Closure cl) {
             cl.delegate = this
+            cl()
+        }
+
+        def dependencies(Closure cl) {
+            deps = new Dependencies()
+            cl.delegate = deps
             cl()
         }
     }
