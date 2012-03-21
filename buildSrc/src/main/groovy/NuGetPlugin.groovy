@@ -30,11 +30,19 @@ class NuGetPlugin implements Plugin<Project> {
                     description(nuspec.description)
                     tags(nuspec.tags)
 
-                    def deps = nuspec.deps.dependencies
-                    if (!deps.empty) {
+                    if (nuspec.dependencies) {
                         dependencies {
-                            deps.each { dep ->
+                            nuspec.dependencies.dependencies.each { dep ->
                                 dependency(id: dep.id, version: dep.version)
+                            }
+                        }
+                    }
+
+                    if (nuspec.frameworkAssemblies) {
+                        frameworkAssemblies {
+                            nuspec.frameworkAssemblies.frameworkAssemblies.each { assembly ->
+                                frameworkAssembly(assemblyName: assembly.assemblyName,
+                                        targetFramework: assembly.targetFramework)
                             }
                         }
                     }
@@ -67,7 +75,8 @@ class NuGetPlugin implements Plugin<Project> {
         def String copyright = 'copyright'
         def String language = 'en-US'
         def String tags = 'tags'
-        def Dependencies deps
+        def Dependencies dependencies
+        def FrameworkAssemblies frameworkAssemblies
 
         def nuspec(Closure cl) {
             cl.delegate = this
@@ -75,8 +84,14 @@ class NuGetPlugin implements Plugin<Project> {
         }
 
         def dependencies(Closure cl) {
-            deps = new Dependencies()
-            cl.delegate = deps
+            dependencies = new Dependencies()
+            cl.delegate = dependencies
+            cl()
+        }
+
+        def frameworkAssemblies(Closure cl) {
+            frameworkAssemblies = new FrameworkAssemblies()
+            cl.delegate = frameworkAssemblies
             cl()
         }
     }
