@@ -1,0 +1,27 @@
+import main.groovy.NuGetPlugin
+
+apply plugin: NuGetPlugin
+
+nuspec {
+    id = 'PackgeId'
+    version = 'version'
+    title = 'title'
+    authors = 'authors'
+    owners = 'owners'
+    licenseUrl = 'licenseUrl'
+    projectUrl = 'projectUrl'
+    iconUrl = 'iconUrl'
+    requireLicenseAcceptance = true
+    description = 'description'
+    summary = 'summary'
+    releaseNotes = 'releaseNotes'
+    copyright = 'copyright'
+    language = 'en-US'
+    tags = 'tags'
+    //packageDependencies {
+    //}
+    //frameworkAssemblies {
+    //}
+    //references {
+    //}
+}
