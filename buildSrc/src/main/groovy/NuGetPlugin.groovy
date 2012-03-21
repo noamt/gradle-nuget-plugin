@@ -1,6 +1,7 @@
 package main.groovy
 
 import groovy.xml.MarkupBuilder
+import groovy.xml.MarkupBuilderHelper
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 
@@ -14,23 +15,23 @@ class NuGetPlugin implements Plugin<Project> {
         project.task('generateNuSpec') << {
             def specWriter = new StringWriter()
             def builder = new MarkupBuilder(specWriter)
-            builder.root {
-                'package' {
-                    def nuspec = project.convention.plugins.nuspec
-                    metadata {
-                        id(nuspec.id)
-                        version(nuspec.version)
-                        authors(nuspec.authors)
-                        owners(nuspec.owners)
-                        licenseUrl(nuspec.licenseUrl)
-                        projectUrl(nuspec.projectUrl)
-                        iconUrl(nuspec.iconUrl)
-                        requireLicenseAcceptance(nuspec.requireLicenseAcceptance)
-                        description(nuspec.description)
-                        tags(nuspec.tags)
-                    }
+            new MarkupBuilderHelper(builder).xmlDeclaration(version: '1.0')
+            builder.'package'(xmlns: 'http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd') {
+                def nuspec = project.convention.plugins.nuspec
+                metadata {
+                    id(nuspec.id)
+                    version(nuspec.version)
+                    authors(nuspec.authors)
+                    owners(nuspec.owners)
+                    licenseUrl(nuspec.licenseUrl)
+                    projectUrl(nuspec.projectUrl)
+                    iconUrl(nuspec.iconUrl)
+                    requireLicenseAcceptance(nuspec.requireLicenseAcceptance)
+                    description(nuspec.description)
+                    tags(nuspec.tags)
                 }
             }
+
             specWriter.flush()
             def specContent = specWriter.toString()
             println 'Spec content is:'
