@@ -18,8 +18,9 @@ nuspec {
     copyright = 'copyright'
     language = 'en-US'
     tags = 'tags'
-    //packageDependencies {
-    //}
+    dependencies {
+        dep1 '1.0'
+    }
     //frameworkAssemblies {
     //}
     //references {
