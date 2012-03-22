@@ -1,6 +1,11 @@
 import main.groovy.NuGetPlugin
 
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.0-milestone-7'
+}
+
 apply plugin: NuGetPlugin
+apply plugin: 'idea'
 
 nuspec {
     id = 'PackgeId'
