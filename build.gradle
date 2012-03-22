@@ -33,4 +33,9 @@ nuspec {
     references {
         file1
     }
+    packageFiles {
+        src1 'target1', 'exclude1'
+        src2 'target2'
+        src3
+    }
 }

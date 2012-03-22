@@ -55,6 +55,13 @@ class NuGetPlugin implements Plugin<Project> {
                         }
                     }
                 }
+                if (nuspec.files) {
+                    files {
+                        nuspec.files.files.each { fileElement ->
+                            file(src: fileElement.src, target: fileElement.target, exclude: fileElement.exclude)
+                        }
+                    }
+                }
             }
 
             specWriter.flush()
@@ -86,6 +93,7 @@ class NuGetPlugin implements Plugin<Project> {
         def Dependencies dependencies
         def FrameworkAssemblies frameworkAssemblies
         def References references
+        def Files files
 
         def nuspec(Closure cl) {
             cl.delegate = this
@@ -107,6 +115,12 @@ class NuGetPlugin implements Plugin<Project> {
         def references(Closure cl) {
             references = new References()
             cl.delegate = references
+            cl()
+        }
+
+        def packageFiles(Closure cl) {
+            files = new Files()
+            cl.delegate = files
             cl()
         }
     }
