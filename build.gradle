@@ -25,11 +25,12 @@ nuspec {
     tags = 'tags'
     dependencies {
         dep1 '1.0'
-        dep2()
+        dep2
     }
     frameworkAssemblies {
         assembly1 '.net4'
     }
-    //references {
-    //}
+    references {
+        file1
+    }
 }

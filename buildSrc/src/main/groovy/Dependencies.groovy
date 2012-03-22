@@ -10,7 +10,7 @@ class Dependencies {
         dependencies << new Dependency(name, ((args != null) && (args.length > 0)) ? args[0] : null)
     }
 
-    def methodMissing(String name) {
+    def propertyMissing(String name, value) {
         methodMissing(name, null)
     }
 

@@ -46,6 +46,14 @@ class NuGetPlugin implements Plugin<Project> {
                             }
                         }
                     }
+
+                    if (nuspec.references) {
+                        references {
+                            nuspec.references.references.each { ref ->
+                                reference(file: ref.file)
+                            }
+                        }
+                    }
                 }
             }
 
@@ -77,6 +85,7 @@ class NuGetPlugin implements Plugin<Project> {
         def String tags = 'tags'
         def Dependencies dependencies
         def FrameworkAssemblies frameworkAssemblies
+        def References references
 
         def nuspec(Closure cl) {
             cl.delegate = this
@@ -92,6 +101,12 @@ class NuGetPlugin implements Plugin<Project> {
         def frameworkAssemblies(Closure cl) {
             frameworkAssemblies = new FrameworkAssemblies()
             cl.delegate = frameworkAssemblies
+            cl()
+        }
+
+        def references(Closure cl) {
+            references = new References()
+            cl.delegate = references
             cl()
         }
     }
