@@ -1,7 +1,7 @@
 import main.groovy.NuGetPlugin
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.0-milestone-9'
+    gradleVersion = '1.0'
 }
 
 apply plugin: NuGetPlugin
