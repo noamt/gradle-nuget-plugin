@@ -1,4 +1,4 @@
-import main.groovy.NuGetPlugin
+import main.groovy.org._10ne.gradle.plugin.nuget.NuGetPlugin
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.0'
@@ -7,35 +7,37 @@ task wrapper(type: Wrapper) {
 apply plugin: NuGetPlugin
 apply plugin: 'idea'
 
-nuspec {
-    id = 'PackgeId'
-    version = 'version'
-    title = 'title'
-    authors = 'authors'
-    owners = 'owners'
-    licenseUrl = 'licenseUrl'
-    projectUrl = 'projectUrl'
-    iconUrl = 'iconUrl'
-    requireLicenseAcceptance = true
-    description = 'description'
-    summary = 'summary'
-    releaseNotes = 'releaseNotes'
-    copyright = 'copyright'
-    language = 'en-US'
-    tags = 'tags'
-    dependencies {
-        dep1 '1.0'
-        dep2
-    }
-    frameworkAssemblies {
-        assembly1 '.net4'
-    }
-    references {
-        file1
-    }
-    packageFiles {
-        src1 'target1', 'exclude1'
-        src2 'target2'
-        src3
+nuGet {
+    nuSpec {
+        id = 'PackgeId'
+        version = 'version'
+        title = 'title'
+        authors = 'authors'
+        owners = 'owners'
+        licenseUrl = 'licenseUrl'
+        projectUrl = 'projectUrl'
+        iconUrl = 'iconUrl'
+        requireLicenseAcceptance = true
+        description = 'description'
+        summary = 'summary'
+        releaseNotes = 'releaseNotes'
+        copyright = 'copyright'
+        language = 'en-US'
+        tags = 'tags'
+        dependencies {
+            dep1 '1.0'
+            dep2
+        }
+        frameworkAssemblies {
+            assembly1 '.net4'
+        }
+        references {
+            file1
+        }
+        packageFiles {
+            src1 'target1', 'exclude1'
+            src2 'target2'
+            src3
+        }
     }
 }

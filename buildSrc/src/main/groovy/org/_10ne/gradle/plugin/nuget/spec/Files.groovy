@@ -1,4 +1,4 @@
-package main.groovy
+package main.groovy.org._10ne.gradle.plugin.nuget.spec
 
 /**
  * @author Noam Y. Tenne
