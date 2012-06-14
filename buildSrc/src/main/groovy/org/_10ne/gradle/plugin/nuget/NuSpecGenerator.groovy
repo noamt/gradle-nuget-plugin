@@ -12,9 +12,11 @@ class NuSpecGenerator {
     public void generateSpec(Project project) {
         def specWriter = new StringWriter()
         def builder = new MarkupBuilder(specWriter)
-        new MarkupBuilderHelper(builder).xmlDeclaration(version: '1.0')
+
+        configureMarkupBuilder(builder)
+
         builder.'package'(xmlns: 'http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd') {
-            def nuSpec = project.convention.plugins.nuGet.nuSpec
+            def nuSpec = project.nuGet.nuSpec
             metadata {
                 id(nuSpec.id)
                 version(nuSpec.version)
@@ -34,16 +36,16 @@ class NuSpecGenerator {
 
                 if (nuSpec.dependencies) {
                     dependencies {
-                        nuSpec.dependencies.dependencies.each { dep ->
-                            dependency(id: dep.id, version: dep.version)
+                        nuSpec.dependencies.each { dep ->
+                            dependency(id: dep.name, version: dep.version)
                         }
                     }
                 }
 
                 if (nuSpec.frameworkAssemblies) {
                     frameworkAssemblies {
-                        nuSpec.frameworkAssemblies.frameworkAssemblies.each { assembly ->
-                            frameworkAssembly(assemblyName: assembly.assemblyName,
+                        nuSpec.frameworkAssemblies.each { assembly ->
+                            frameworkAssembly(assemblyName: assembly.name,
                                     targetFramework: assembly.targetFramework)
                         }
                     }
@@ -51,16 +53,16 @@ class NuSpecGenerator {
 
                 if (nuSpec.references) {
                     references {
-                        nuSpec.references.references.each { ref ->
-                            reference(file: ref.file)
+                        nuSpec.references.each { ref ->
+                            reference(file: ref.name)
                         }
                     }
                 }
             }
             if (nuSpec.files) {
                 files {
-                    nuSpec.files.files.each { fileElement ->
-                        file(src: fileElement.src, target: fileElement.target, exclude: fileElement.exclude)
+                    nuSpec.files.each { fileElement ->
+                        name(src: fileElement.name, target: fileElement.target, exclude: fileElement.exclude)
                     }
                 }
             }
@@ -70,6 +72,16 @@ class NuSpecGenerator {
         String specContent = specWriter.toString()
         println 'Spec content is:'
         println specContent
+        writeSpecFile(project, specContent)
+    }
+
+    private void configureMarkupBuilder(MarkupBuilder builder) {
+        builder.omitEmptyAttributes = true
+        builder.omitNullAttributes = true
+        new MarkupBuilderHelper(builder).xmlDeclaration(version: '1.0')
+    }
+
+    private void writeSpecFile(Project project, String specContent) {
         File outDir = new File(project.getBuildDir(), 'nuget-plugin')
         outDir.mkdirs()
         File specFile = new File(outDir, "${project.getName()}.nuspec")

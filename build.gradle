@@ -24,19 +24,29 @@ nuGet {
         copyright = 'copyright'
         language = 'en-US'
         tags = 'tags'
+
         dependencies {
-            dep1 '1.0'
+            dep1 {
+                version = '1.0'
+            }
             dep2
         }
         frameworkAssemblies {
-            assembly1 '.net4'
+            assembly1 {
+                targetFramework = '.net4'
+            }
         }
         references {
             file1
         }
-        packageFiles {
-            src1 'target1', 'exclude1'
-            src2 'target2'
+        files {
+            src1 {
+                target = 'target1'
+                exclude = 'exclude1'
+            }
+            src2 {
+                targt = 'target2'
+            }
             src3
         }
     }
