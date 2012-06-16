@@ -31,6 +31,21 @@ nuGet {
             }
             dep2
         }
+        dependencyGroups {
+            group1 {
+                targetFramework = '1.0'
+            }
+            group2 {
+                dependencies {
+                    dep3 {
+                        version = '1.0'
+                    }
+                    dep4 {
+                        version = '1.0'
+                    }
+                }
+            }
+        }
         frameworkAssemblies {
             assembly1 {
                 targetFramework = '.net4'
@@ -45,7 +60,7 @@ nuGet {
                 exclude = 'exclude1'
             }
             src2 {
-                targt = 'target2'
+                target = 'target2'
             }
             src3
         }

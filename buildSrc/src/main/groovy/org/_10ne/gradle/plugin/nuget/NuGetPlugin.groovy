@@ -17,6 +17,13 @@ class NuGetPlugin implements Plugin<Project> {
             project.nuGet.nuSpec.extensions."$it.key" = project.container(it.value)
         }
 
+        project.nuGet.nuSpec.extensions."dependencyGroups" = project.container(DependencyGroup) {
+            def groupExtension =
+                project.nuGet.nuSpec.dependencyGroups.extensions.create("$it", DependencyGroup, "$it".toString())
+            project.nuGet.nuSpec.dependencyGroups."$it".extensions.'dependencies' = project.container(Dependency)
+            groupExtension
+        }
+
         project.task('generateNuSpec') << {
             new NuSpecGenerator().generateSpec(project)
         }

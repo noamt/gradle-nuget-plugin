@@ -34,10 +34,17 @@ class NuSpecGenerator {
                 language(nuSpec.language)
                 tags(nuSpec.tags)
 
-                if (nuSpec.dependencies) {
+                if (nuSpec.dependencies || nuSpec.dependencyGroups) {
                     dependencies {
                         nuSpec.dependencies.each { dep ->
                             dependency(id: dep.name, version: dep.version)
+                        }
+                        nuSpec.dependencyGroups.each { depGroup ->
+                            group(targetFramework: depGroup.targetFramework) {
+                                depGroup.dependencies.each { dep ->
+                                    dependency(id: dep.name, version: dep.version)
+                                }
+                            }
                         }
                     }
                 }
@@ -62,7 +69,7 @@ class NuSpecGenerator {
             if (nuSpec.files) {
                 files {
                     nuSpec.files.each { fileElement ->
-                        name(src: fileElement.name, target: fileElement.target, exclude: fileElement.exclude)
+                        file(src: fileElement.name, target: fileElement.target, exclude: fileElement.exclude)
                     }
                 }
             }
