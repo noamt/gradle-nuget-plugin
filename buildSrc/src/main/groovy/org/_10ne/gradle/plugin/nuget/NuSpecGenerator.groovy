@@ -77,8 +77,6 @@ class NuSpecGenerator {
 
         specWriter.flush()
         String specContent = specWriter.toString()
-        println 'Spec content is:'
-        println specContent
         writeSpecFile(project, specContent)
     }
 
@@ -89,10 +87,9 @@ class NuSpecGenerator {
     }
 
     private void writeSpecFile(Project project, String specContent) {
-        File outDir = new File(project.getBuildDir(), 'nuget-plugin')
-        outDir.mkdirs()
-        File specFile = new File(outDir, "${project.getName()}.nuspec")
+        File specFile = new File(project.getBuildDir(), "nuget-plugin/${project.nuGet.nuSpec.id}.nuspec")
+        specFile.getParentFile().mkdirs()
         specFile.text = specContent
-        println "NuSpec File written to: ${specFile.absolutePath}"
+        project.logger.lifecycle("NuSpec File written to: ${specFile.absolutePath}")
     }
 }

@@ -1,15 +1,17 @@
 import main.groovy.org._10ne.gradle.plugin.nuget.NuGetPlugin
+import main.groovy.org._10ne.gradle.plugin.nuget.PackTask
 
 task wrapper(type: Wrapper) {
     gradleVersion = '1.0'
 }
 
+apply plugin: 'java'
 apply plugin: NuGetPlugin
 apply plugin: 'idea'
 
 nuGet {
     nuSpec {
-        id = 'PackgeId'
+        id = 'PackageId'
         version = 'version'
         title = 'title'
         authors = 'authors'
@@ -64,5 +66,11 @@ nuGet {
             }
             src3
         }
+    }
+}
+
+task pack(type: PackTask) {
+    into('META') {
+        from 'README'
     }
 }

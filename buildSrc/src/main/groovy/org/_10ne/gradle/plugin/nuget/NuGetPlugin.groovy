@@ -27,9 +27,5 @@ class NuGetPlugin implements Plugin<Project> {
         project.task('generateNuSpec') << {
             new NuSpecGenerator().generateSpec(project)
         }
-
-        project.task('nuPack') << {
-
-        }
     }
 }
